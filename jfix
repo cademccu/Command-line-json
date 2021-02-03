@@ -1,0 +1,60 @@
+#! /usr/bin/env python3
+
+import sys
+import subprocess
+import shutil
+import json
+
+def usage():
+    print("\n----------------------------------------------------------------")
+    print("[USAGE] <INFILE> <OUTFILE>\n")
+    print("\t<INFILE>   The input file to read from. If only argument, prints to stdout.")
+    print("\t<OUTFILE>  The output file to write to. Currently OVERWRITES file, does not append.")
+    print("\t           Using \"-s\" in place of <OUTFILE> will overwrite input file. Use with caution.")
+    print("----------------------------------------------------------------\n")
+
+def write_stdout(filename):
+    with open(filename, 'r') as f:
+        json_data = f.read()
+        json_object = json.loads(json_data)
+        print(json.dumps(json_object, indent = 4))
+
+def write_to_file(infile, outfile):
+    print("\nWriting to file: " + outfile + "\n")
+
+    with open(infile, 'r') as inf:
+        json_data = inf.read()
+        json_object = json.loads(json_data)
+        with open(outfile, 'w') as outf:
+            outf.write(json.dumps(json_object, indent = 4))
+            print("done!\n")
+
+def overwrite(infile):
+    print("\noverwriting...\n")
+
+    json_data = ""
+    with open(infile, 'r') as f:
+        json_data = f.read()
+
+    json_object = json.loads(json_data)
+
+    with open(infile, 'w') as f:
+        f.write(json.dumps(json_object, indent = 4))
+        print("done!\n")
+
+def main():
+    if len(sys.argv) == 2:
+        if sys.argv[1] == "-h":
+            usage()
+        else:
+            write_stdout(sys.argv[1])
+    elif len(sys.argv) == 3:
+        if sys.argv[2] == "-s":
+            overwrite(sys.argv[1])
+        else:
+            write_to_file(sys.argv[1], sys.argv[2])
+    else:
+        usage()
+
+if __name__ == "__main__":
+    main()
