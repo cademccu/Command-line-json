@@ -1,9 +1,9 @@
 #! /usr/bin/env python3
 
 import sys
-import subprocess
-import shutil
 import json
+
+INDENT_AMOUNT = 4
 
 def usage():
     print("\n----------------------------------------------------------------")
@@ -17,7 +17,7 @@ def write_stdout(filename):
     with open(filename, 'r') as f:
         json_data = f.read()
         json_object = json.loads(json_data)
-        print(json.dumps(json_object, indent = 4))
+        print(json.dumps(json_object, indent = INDENT_AMOUNT))
 
 def write_to_file(infile, outfile):
     print("\nWriting to file: " + outfile + "\n")
@@ -26,7 +26,7 @@ def write_to_file(infile, outfile):
         json_data = inf.read()
         json_object = json.loads(json_data)
         with open(outfile, 'w') as outf:
-            outf.write(json.dumps(json_object, indent = 4))
+            outf.write(json.dumps(json_object, indent = INDENT_AMOUNT))
             print("done!\n")
 
 def overwrite(infile):
@@ -39,7 +39,7 @@ def overwrite(infile):
     json_object = json.loads(json_data)
 
     with open(infile, 'w') as f:
-        f.write(json.dumps(json_object, indent = 4))
+        f.write(json.dumps(json_object, indent = INDENT_AMOUNT))
         print("done!\n")
 
 def main():
